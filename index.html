@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.1 Surround on Bazzite over HDMI ARC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f10;
+      --surface: #18181b;
+      --border: #2a2a2f;
+      --text: #e4e4e7;
+      --muted: #71717a;
+      --accent: #22d3ee;
+      --accent-dim: rgba(34,211,238,0.1);
+      --warn: #f59e0b;
+      --success: #4ade80;
+      --code-bg: #141417;
+      --step-w: 3rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      padding: 0 1.5rem;
+    }
+
+    /* ---- Layout ---- */
+    .wrapper {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 5rem 0 8rem;
+    }
+
+    /* ---- Header ---- */
+    header {
+      border-left: 3px solid var(--accent);
+      padding-left: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Prose ---- */
+    .prose { margin-bottom: 3rem; }
+
+    .prose p { margin-bottom: 1rem; color: #a1a1aa; }
+
+    .prose strong { color: var(--text); font-weight: 500; }
+
+    /* ---- Callout ---- */
+    .callout {
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-left-width: 3px;
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      color: #a1a1aa;
+    }
+
+    .callout strong { color: var(--accent); }
+
+    .callout-warn {
+      background: rgba(245,158,11,0.08);
+      border-color: var(--warn);
+    }
+
+    .callout-warn strong { color: var(--warn); }
+
+    /* ---- Steps ---- */
+    .steps { counter-reset: step; }
+
+    .step {
+      display: grid;
+      grid-template-columns: var(--step-w) 1fr;
+      gap: 0 1.5rem;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      left: calc(var(--step-w) / 2 - 1px);
+      top: 2.5rem;
+      bottom: -1rem;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .step:last-child::before { display: none; }
+
+    .step-num {
+      counter-increment: step;
+      width: var(--step-w);
+      height: var(--step-w);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      flex-shrink: 0;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-body {}
+
+    .step-body h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      padding-top: 0.6rem;
+    }
+
+    .step-body p {
+      color: #a1a1aa;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-body strong { color: var(--text); }
+
+    /* ---- Code ---- */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      margin: 0.75rem 0 1rem;
+      position: relative;
+    }
+
+    pre code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: #d4d4d8;
+    }
+
+    .cmd { color: var(--accent); }
+    .comment { color: #52525b; font-style: italic; }
+    .key { color: #a78bfa; }
+    .val { color: #86efac; }
+    .str { color: #fcd34d; }
+
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.83em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.1em 0.4em;
+      border-radius: 2px;
+      color: var(--accent);
+    }
+
+    pre code { background: none; border: none; padding: 0; color: inherit; }
+
+    /* ---- Troubleshooting ---- */
+    .troubleshoot { margin-top: 4rem; }
+
+    .troubleshoot h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .issue {
+      margin-bottom: 1.5rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--border);
+    }
+
+    .issue p:first-child {
+      font-weight: 500;
+      color: var(--warn);
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .issue p:last-child {
+      color: #a1a1aa;
+      font-size: 0.9rem;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <p class="eyebrow">Bazzite Linux / Audio / Guide</p>
+    <h1>Getting 5.1 Surround Sound Working over HDMI ARC</h1>
+    <p class="subtitle">Dolby Digital AC3 transcoding on Bazzite with PipeWire - including the fix that most guides miss.</p>
+    <div class="meta">
+      <span class="tag">Bazzite</span>
+      <span class="tag">PipeWire</span>
+      <span class="tag">HDMI ARC</span>
+      <span class="tag">AC3 / Dolby Digital</span>
+      <span class="tag">June 2026</span>
+    </div>
+  </header>
+
+  <div class="prose">
+    <p>Most TVs - Samsung included - don't support LPCM 5.1 over HDMI ARC. They only accept PCM 2.0 or Dolby Digital (AC3). Linux doesn't transcode to AC3 by default, so surround sound just doesn't arrive at your receiver even if everything looks correctly configured.</p>
+    <p>The fix is to create a virtual audio device that encodes your audio as AC3 before it goes out over HDMI. There's a good existing guide for this, but it assumes traditional PulseAudio. Bazzite uses PipeWire, and there's one step that breaks silently - your sink appears to work but vanishes after every reboot. This guide covers the full setup including that fix.</p>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h2>Install the AC3 encoder plugin</h2>
+        <p>Bazzite is an immutable OS, so software installs go through <code>rpm-ostree</code> rather than a standard package manager. Run this, then reboot.</p>
+        <pre><code><span class="cmd">sudo rpm-ostree install</span> alsa-plugins-a52</code></pre>
+        <p>The reboot is required before the plugin is available to ALSA.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h2>Find your HDMI audio device</h2>
+        <p>List your playback hardware to find which card and device number corresponds to your TV.</p>
+        <pre><code><span class="cmd">aplay -l</span></code></pre>
+        <p>Look for your TV in the output - it'll usually be labelled by manufacturer name. Note down the <strong>card number</strong> and <strong>device number</strong>.</p>
+        <pre><code><span class="comment"># Example output - yours will differ</span>
+card 1: HDMI [HDA ATI HDMI], device 10: HDMI 4 [SAMSUNG]</code></pre>
+        <p>In this example: card <code>1</code>, device <code>10</code>. Keep these handy for the next step.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h2>Release the HDMI device in PulseAudio Volume Control</h2>
+        <p>Install <strong>PulseAudio Volume Control</strong> (pavucontrol) from the Bazzite app store. Open it, go to the <strong>Configuration</strong> tab, and disable the HDMI output connected to your TV. This releases it so our custom setup can take control.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h2>Create the ALSA config</h2>
+        <p>This tells ALSA how to encode audio as AC3 and route it to your HDMI output.</p>
+        <pre><code><span class="cmd">nano</span> ~/.asoundrc</code></pre>
+        <p>Paste the following - replacing <code>hw:HDMI,10</code> with your actual card and device numbers from Step 2.</p>
+        <pre><code><span class="comment"># Raw AC3 encoder</span>
+<span class="key">pcm.a52_raw</span> {
+    <span class="key">type</span>      <span class="val">a52</span>
+    <span class="key">rate</span>      <span class="val">48000</span>
+    <span class="key">bitrate</span>   <span class="val">640</span>
+    <span class="key">channels</span>  <span class="val">6</span>
+    <span class="key">format</span>    <span class="val">S16_LE</span>
+    <span class="key">slavepcm</span>  <span class="str">"hw:HDMI,10"</span>  <span class="comment"># your card and device here</span>
+}
+
+<span class="comment"># Safe wrapper - handles format conversion for apps</span>
+<span class="key">pcm.a52_safe</span> {
+    <span class="key">type</span> <span class="val">plug</span>
+    <span class="key">slave.pcm</span> <span class="str">"a52_raw"</span>
+    <span class="key">hint</span> {
+        <span class="key">show</span> <span class="val">on</span>
+        <span class="key">description</span> <span class="str">"TV (AC3 Surround)"</span>
+    }
+}</code></pre>
+        <p>The bitrate of 640kbit is the maximum for HDMI ARC.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h2>Test the encoder</h2>
+        <p>Run the speaker test to confirm audio is reaching your surround system before going further.</p>
+        <pre><code><span class="cmd">speaker-test</span> -D a52_safe -c 6 -r 48000</code></pre>
+        <p>You should hear test tones from each channel. If this works, carry on. If not, go back and check your card and device numbers in Step 2.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h2>Create the PipeWire sink</h2>
+        <div class="callout">
+          <strong>This is the step most guides get wrong.</strong> The usual advice is to run <code>pactl load-module module-alsa-sink</code> via a systemd service. On Bazzite this silently fails with <em>"Failure: Unknown error code"</em> because PipeWire's PulseAudio compatibility layer doesn't support that module. Your sink appears to work in testing but vanishes after every reboot. The fix is to create the sink using PipeWire's own native config.
+        </div>
+        <pre><code><span class="cmd">mkdir -p</span> ~/.config/pipewire/pipewire.conf.d
+<span class="cmd">nano</span> ~/.config/pipewire/pipewire.conf.d/ac3-sink.conf</code></pre>
+        <pre><code>context.objects = [
+  {
+    factory = adapter
+    args = {
+      <span class="key">factory.name</span>     = <span class="val">api.alsa.pcm.sink</span>
+      <span class="key">node.name</span>        = <span class="val">TV_AC3</span>
+      <span class="key">node.description</span> = <span class="str">"TV Surround 5.1"</span>
+      <span class="key">media.class</span>      = <span class="val">Audio/Sink</span>
+      <span class="key">api.alsa.path</span>    = <span class="val">a52_safe</span>
+      <span class="key">audio.channels</span>   = <span class="val">6</span>
+      <span class="key">audio.rate</span>       = <span class="val">48000</span>
+    }
+  }
+]</code></pre>
+        <p>PipeWire will create the <code>TV_AC3</code> sink automatically at startup from this config file.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h2>Create a keepalive service (recommended)</h2>
+        <p>Without this, your receiver may click or go silent during quiet moments because it thinks the audio stream has ended. This service plays inaudible silence into the sink to keep it active.</p>
+        <pre><code><span class="cmd">nano</span> ~/.config/systemd/user/ac3-keepalive.service</code></pre>
+        <pre><code>[Unit]
+Description=Keep AC3 Output Alive with Silence
+After=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/paplay --raw --format=s16le --rate=48000 \
+  --channels=2 --device=TV_AC3 \
+  --property=media.role=background \
+  --latency-msec=2000 /dev/zero
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target</code></pre>
+        <pre><code><span class="cmd">systemctl --user</span> daemon-reload
+<span class="cmd">systemctl --user</span> enable --now ac3-keepalive.service</code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <h2>Restart PipeWire and verify</h2>
+        <pre><code><span class="cmd">systemctl --user restart</span> pipewire pipewire-pulse wireplumber</code></pre>
+        <p>Then check the sink exists:</p>
+        <pre><code><span class="cmd">pactl list short sinks</span></code></pre>
+        <p>You should see <code>TV_AC3</code> in the list. Set it as your default output in your audio settings, or select it per-application in PulseAudio Volume Control under the Playback tab.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">9</div>
+      <div class="step-body">
+        <h2>Reboot and confirm</h2>
+        <p>Reboot and run <code>pactl list short sinks</code> again. <code>TV_AC3</code> should still be there - PipeWire creates it automatically from the config file on every startup.</p>
+        <div class="callout" style="background:rgba(74,222,128,0.07); border-color: var(--success);">
+          <strong style="color:var(--success)">Done.</strong> You should now have Dolby Digital 5.1 output over HDMI ARC that survives reboots.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="troubleshoot">
+    <h2>Troubleshooting</h2>
+
+    <div class="issue">
+      <p>TV_AC3 doesn't appear after reboot</p>
+      <p>Check that <code>~/.config/pipewire/pipewire.conf.d/ac3-sink.conf</code> exists and the syntax is correct. Then restart PipeWire with the command in Step 8.</p>
+    </div>
+
+    <div class="issue">
+      <p>Speaker test works but no surround in games or movies</p>
+      <p>Make sure TV_AC3 is selected as the output device - either globally in sound settings or per-application in PulseAudio Volume Control.</p>
+    </div>
+
+    <div class="issue">
+      <p>ALSA card number changed after reboot</p>
+      <p>This is a known issue with some systems. Run <code>aplay -l</code> again to find the new card and device numbers, then update <code>~/.asoundrc</code> accordingly.</p>
+    </div>
+
+    <div class="issue callout-warn">
+      <p>LG TV users</p>
+      <p>There are reports of loud white noise occurring occasionally with LG TVs from around 2017. Proceed with caution.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Based on the original guide by <a href="https://gist.github.com/basso/04cbdc9cad5629f2ae83a941875c4ad5" target="_blank">basso on GitHub</a>, with the PipeWire native sink fix added for Bazzite compatibility.</p>
+  </footer>
+
+</div>
+</body>
+</html>
