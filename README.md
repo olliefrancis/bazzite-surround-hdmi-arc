@@ -4,6 +4,8 @@
 **Goal:** Dolby Digital AC3 5.1 audio output over HDMI ARC to a TV/soundbar (e.g. Samsung TV + Sonos)  
 **Status:** Working as of June 2026
 
+Available as a web page at https://bazzite-surround-hdmi-arc.olliefrancis.com/
+
 ---
 
 ## The Problem
