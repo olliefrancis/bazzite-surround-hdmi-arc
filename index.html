@@ -601,7 +601,7 @@ card 1: HDMI [HDA ATI HDMI], device 10: HDMI 4 [SAMSUNG]</code></pre>
       <div class="step-body">
         <h2>Create the PipeWire sink</h2>
         <div class="callout">
-          <strong>This is the step most guides get wrong.</strong> The usual advice is to run <code>pactl load-module module-alsa-sink</code> via a systemd service. On Bazzite this silently fails with <em>"Failure: Unknown error code"</em> because PipeWire's PulseAudio compatibility layer doesn't support that module. Your sink appears to work in testing but vanishes after every reboot. The fix is to create the sink using PipeWire's own native config file.
+          <strong>Other guides may still work on older versions of Bazzite.</strong> The usual advice is to run <code>pactl load-module module-alsa-sink</code> via a systemd service. On current Bazzite this silently fails with <em>"Failure: Unknown error code"</em> because PipeWire's PulseAudio compatibility layer doesn't support that module. Your sink may appear to work in testing but vanishes after every reboot. The fix is to create the sink using PipeWire's own native config file instead.
         </div>
         <ol class="substeps">
           <li>Open the <strong>Terminal</strong>.</li>
