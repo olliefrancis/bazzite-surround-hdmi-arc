@@ -1,12 +1,12 @@
 # Getting 5.1 Surround Sound Working over HDMI ARC on Bazzite
 
-**Platform:** Bazzite Linux  
-**Goal:** Dolby Digital AC3 5.1 audio output over HDMI ARC to a TV/soundbar (e.g. Samsung TV + Sonos)  
-**Status:** Working as of June 2026
+*Bazzite Linux / Audio / Guide*
 
-Available as a web page at https://bazzite-surround-hdmi-arc.olliefrancis.com/
+Dolby Digital AC3 transcoding on Bazzite with PipeWire — including the fix that most guides miss.
 
-Source on GitHub: https://github.com/olliefrancis/bazzite-surround-hdmi-arc
+**Tags:** Bazzite · PipeWire · HDMI ARC · AC3 / Dolby Digital · June 2026
+
+**Web guide:** [bazzite-surround-hdmi-arc.olliefrancis.com](https://bazzite-surround-hdmi-arc.olliefrancis.com/) · **[View on GitHub](https://github.com/olliefrancis/bazzite-surround-hdmi-arc)**
 
 ---
 
@@ -29,7 +29,7 @@ Most TVs — Samsung included — don't support LPCM 5.1 over HDMI ARC. They onl
 
 The fix is to create a virtual audio device that encodes your audio as AC3 before it goes out over HDMI. There's a good existing guide for this, but it assumes traditional PulseAudio. Bazzite uses PipeWire, and there's one step that breaks silently — your sink appears to work but vanishes after every reboot. This guide covers the full setup including that fix.
 
-> **Before you start.** Several steps use the **Terminal** — a text-based app where you type or paste commands and press **Enter** to run them. On Bazzite, open it from your app menu (search for **Terminal** or **Konsole**). To paste a command, copy it from this page, click inside the Terminal window, and press **Ctrl+Shift+V** (or right-click and choose Paste). Some commands start with `sudo`, which means you'll be asked for your login password — type it and press Enter. Nothing will appear on screen as you type the password; that's normal.
+> **Before you start.** Several steps use the **Terminal** — a text-based app where you type or paste commands and press **Enter** to run them. On Bazzite, open it from your app menu (search for **Terminal** or **Konsole**). To paste a command, copy it from this guide, click inside the Terminal window, and press **Ctrl+Shift+V** (or right-click and choose Paste). Some commands start with `sudo`, which means you'll be asked for your login password — type it and press Enter. Nothing will appear on screen as you type the password; that's normal.
 
 ---
 
@@ -64,6 +64,7 @@ aplay -l
 Example output — yours will differ:
 
 ```
+# Example output - yours will differ
 card 1: HDMI [HDA ATI HDMI], device 10: HDMI 4 [SAMSUNG]
 ```
 
@@ -276,3 +277,5 @@ There are reports of loud white noise occurring occasionally with LG TVs from ar
 Guide written by [Ollie Francis](https://olliefrancis.com). [View on GitHub](https://github.com/olliefrancis/bazzite-surround-hdmi-arc).
 
 Based on the original guide by [basso on GitHub](https://gist.github.com/basso/04cbdc9cad5629f2ae83a941875c4ad5), with the PipeWire native sink fix added for Bazzite compatibility.
+
+Also available as a web guide at [bazzite-surround-hdmi-arc.olliefrancis.com](https://bazzite-surround-hdmi-arc.olliefrancis.com/).
