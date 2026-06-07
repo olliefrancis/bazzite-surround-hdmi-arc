@@ -1,6 +1,6 @@
 # Getting 5.1 Surround Sound Working over HDMI ARC on Bazzite
 
-*Bazzite Linux / Audio / Guide*
+**V1.3** · *Bazzite Linux / Audio / Guide*
 
 Dolby Digital AC3 transcoding on Bazzite with PipeWire — including the fix that most guides miss.
 
@@ -22,6 +22,7 @@ Dolby Digital AC3 transcoding on Bazzite with PipeWire — including the fix tha
 8. [Restart PipeWire and verify](#step-8-restart-pipewire-and-verify)
 9. [Reboot and confirm](#step-9-reboot-and-confirm)
 10. [Troubleshooting](#troubleshooting)
+11. [FAQ](#faq)
 
 ---
 
@@ -269,6 +270,50 @@ This is a known issue with some systems. Run `aplay -l` again to find the new ca
 
 **LG TV users**  
 There are reports of loud white noise occurring occasionally with LG TVs from around 2017. Proceed with caution.
+
+---
+
+## FAQ
+
+### The guide sets the bitrate to 640kbit — can this be increased for better quality?
+
+No — 640kbit is the maximum for Dolby Digital (AC3), so it's already running at its ceiling. For context, CD audio runs at 1411kbit, but that's uncompressed stereo. AC3 is a lossy format carrying six channels, so compression is doing a lot of work to fit everything in. For films and games it sounds great — that's what it was designed for.
+
+eARC does support higher-quality formats like Dolby TrueHD, but Linux can't encode to those in real time yet. If that changes, Dolby Digital Plus (DD+) over eARC would be the logical next step, supporting up to 1.5Mbit. For now, this is as good as it gets with this approach.
+
+### Why does my audio cut out during quiet moments?
+
+This is covered by the keepalive service in Step 7. Without it, your receiver sees silence and assumes the stream has ended. The service plays inaudible digital silence into the sink to keep the connection alive. If you skipped that step, go back and add it.
+
+### Why does the TV_AC3 sink disappear when I turn my TV off and back on?
+
+When the HDMI connection drops, PipeWire can lose track of the sink. Restarting PipeWire will bring it back:
+
+```bash
+systemctl --user restart pipewire pipewire-pulse wireplumber
+```
+
+A full reboot also works. A more permanent fix would involve a udev rule to handle the hotplug event automatically, but that's beyond the scope of this guide.
+
+### Will this work with a receiver or soundbar rather than a TV?
+
+Yes, as long as your device accepts Dolby Digital (AC3) over HDMI ARC or eARC. The TV is just the transport in most setups — the audio ends up at whatever is connected to it. Check your receiver or soundbar's specs to confirm AC3 support.
+
+### Does this work with Wayland or X11?
+
+Yes. The setup operates entirely at the audio layer and has nothing to do with your display server. It works with both.
+
+### What if I have multiple HDMI outputs and I'm not sure which one to use?
+
+Run `aplay -l` and look for the entry labelled with your TV's manufacturer name. If nothing is clearly labelled, you may need to try each device number in turn in your `.asoundrc` and run the speaker test after each change to find the right one.
+
+### Will this affect my other audio devices — Bluetooth, USB, etc?
+
+No. The config adds a new sink without touching your existing ones. Your other audio outputs will continue to work as normal.
+
+### Will a Bazzite update break this?
+
+The PipeWire config file you created in Step 6 should survive updates without issue. The main risk is the `alsa-plugins-a52` package — if a major `rpm-ostree` update resets layered packages, you may need to reinstall it and reboot. Worth checking if surround sound stops working after a big update.
 
 ---
 
