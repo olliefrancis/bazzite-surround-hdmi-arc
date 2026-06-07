@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bazzite-surround-hdmi-arc.olliefrancis.com/sitemap.xml
