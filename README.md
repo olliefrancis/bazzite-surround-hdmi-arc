@@ -6,6 +6,8 @@
 
 Available as a web page at https://bazzite-surround-hdmi-arc.olliefrancis.com/
 
+Source on GitHub: https://github.com/olliefrancis/bazzite-surround-hdmi-arc
+
 ---
 
 ## Contents
@@ -271,6 +273,6 @@ There are reports of loud white noise occurring occasionally with LG TVs from ar
 
 ## Credits
 
-Guide written by [Ollie Francis](https://olliefrancis.com).
+Guide written by [Ollie Francis](https://olliefrancis.com). [View on GitHub](https://github.com/olliefrancis/bazzite-surround-hdmi-arc).
 
 Based on the original guide by [basso on GitHub](https://gist.github.com/basso/04cbdc9cad5629f2ae83a941875c4ad5), with the PipeWire native sink fix added for Bazzite compatibility.
